@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Page Not Found</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #F4F1EA;
+      --surface: #EBE6DC;
+      --ink: #121212;
+      --muted: #6E6A63;
+      --accent: #FF3B14;
+      --accent-ink: #FFFFFF;
+      --border: rgba(18, 18, 18, 0.14);
+      --grid: rgba(18, 18, 18, 0.055);
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+      transition: background-color 0.28s ease, color 0.28s ease;
+    }
+
+    .font-mono-tech {
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    /* Tactile Neo-Brutalist Button */
+    .brutalist-btn {
+      background-color: var(--accent);
+      color: var(--accent-ink);
+      border: 2px solid var(--ink);
+      box-shadow: 4px 4px 0px var(--ink);
+      transition: transform 0.14s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  box-shadow 0.14s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  background-color 0.2s ease;
+    }
+    .brutalist-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0px var(--ink);
+    }
+    .brutalist-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+
+    .brutalist-pill-btn {
+      background-color: var(--bg);
+      color: var(--ink);
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0px var(--ink);
+      transition: transform 0.14s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  box-shadow 0.14s cubic-bezier(0.2, 0.8, 0.2, 1),
+                  background-color 0.15s ease,
+                  color 0.15s ease;
+    }
+    .brutalist-pill-btn:hover {
+      transform: translate(-1.5px, -1.5px);
+      box-shadow: 4.5px 4.5px 0px var(--ink);
+    }
+    .brutalist-pill-btn:active {
+      transform: translate(1.5px, 1.5px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+    .brutalist-pill-btn.active-mode {
+      background-color: var(--ink);
+      color: var(--bg);
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: max-content;
+      animation: marqueeScroll 28s linear infinite;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between overflow-hidden relative">
+
+  <!-- Custom Magnetic Grab Cursor (Desktop) -->
+  <div id="custom-cursor"
+       class="pointer-events-none fixed z-50 hidden md:flex items-center justify-center transition-transform duration-75 ease-out"
+       style="left: -100px; top: -100px; opacity: 0; transform: translate(-50%, -50%) scale(0.5);">
+    <div id="cursor-badge"
+         class="px-3 py-1 rounded-full font-mono-tech text-[10px] font-bold tracking-widest uppercase border-2 border-[var(--ink)] shadow-md flex items-center gap-1.5"
+         style="background: var(--ink); color: var(--bg);">
+      <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/>
+      </svg>
+      <span id="cursor-text">GRAB</span>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       1. MINIMAL ARCHITECTURAL TOP BAR
+       ===================================================================== -->
+  <header class="w-full border-b-2 border-[var(--ink)] bg-[var(--bg)] z-20 shrink-0">
+    <div class="flex items-center justify-between px-4 sm:px-6 h-14">
+      <!-- Left Brand Indicator -->
+      <div class="flex items-center gap-3">
+        <span class="w-3 h-3 rounded-full bg-[var(--accent)] border-2 border-[var(--ink)] inline-block"></span>
+        <span class="font-mono-tech text-xs font-bold tracking-wider uppercase">404 // ARCHIVE</span>
+        <span id="grab-status" class="hidden sm:inline-block font-mono-tech text-[11px] px-2 py-0.5 rounded bg-[var(--surface)] border border-[var(--ink)] uppercase">
+          DRAG &amp; THROW
+        </span>
+      </div>
+
+      <!-- Right Theme Switcher & Audio Toggle -->
+      <div class="flex items-center gap-2">
+        <div class="flex items-center border-2 border-[var(--ink)] bg-[var(--surface)] p-0.5 rounded-lg">
+          <button type="button" data-theme="paper" class="theme-btn px-2.5 py-1 text-[11px] font-mono-tech font-bold uppercase rounded-md transition-colors cursor-pointer bg-[var(--ink)] text-[var(--bg)]">
+            Paper
+          </button>
+          <button type="button" data-theme="blueprint" class="theme-btn px-2.5 py-1 text-[11px] font-mono-tech font-bold uppercase rounded-md transition-colors cursor-pointer text-[var(--ink)] hover:opacity-75">
+            Blueprint
+          </button>
+          <button type="button" data-theme="obsidian" class="theme-btn px-2.5 py-1 text-[11px] font-mono-tech font-bold uppercase rounded-md transition-colors cursor-pointer text-[var(--ink)] hover:opacity-75">
+            Carbon
+          </button>
+        </div>
+
+        <button id="sound-btn" type="button" title="Toggle Tactile Sound" aria-label="Toggle Tactile Sound"
+                class="p-2 border-2 border-[var(--ink)] rounded-lg bg-[var(--bg)] text-[var(--ink)] hover:bg-[var(--surface)] cursor-pointer transition-colors">
+          <!-- Muted Icon by default -->
+          <svg id="sound-off-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <svg id="sound-on-icon" class="w-4 h-4 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =====================================================================
+       2. OPEN FULL-BLEED PHYSICS PLAYGROUND (NO CLUTTERED HERO TEXT)
+       ===================================================================== -->
+  <main id="stage" class="relative flex-1 w-full overflow-hidden">
+    <!-- Top Floating Action Bar: ONLY the Return to Homepage CTA & Compact Physics Dock -->
+    <div class="relative z-10 pointer-events-none w-full px-4 sm:px-8 pt-5 flex flex-wrap items-center justify-between gap-3">
+      <!-- Primary CTA: Return to Homepage -->
+      <div class="pointer-events-auto flex items-center gap-2.5">
+        <a href="/" id="return-home-btn"
+           class="brutalist-btn inline-flex items-center gap-2.5 px-5 py-3 rounded-xl font-mono-tech text-xs sm:text-sm font-bold uppercase tracking-wider cursor-pointer">
+          <span id="return-home-label">Return to Homepage</span>
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+          </svg>
+        </a>
+
+        <button id="spawn-btn" type="button"
+                class="brutalist-pill-btn inline-flex items-center gap-1.5 px-3.5 py-3 rounded-xl font-mono-tech text-xs sm:text-sm font-bold uppercase tracking-wider cursor-pointer"
+                title="Drop extra 404 badges">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          <span class="hidden sm:inline">Drop</span>
+        </button>
+      </div>
+
+      <!-- Compact Physics Pill Controls -->
+      <div class="pointer-events-auto flex items-center gap-2">
+        <button id="zerog-btn" type="button"
+                class="brutalist-pill-btn px-3 py-2.5 rounded-xl font-mono-tech text-xs font-bold uppercase flex items-center gap-1.5 cursor-pointer">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+          </svg>
+          <span>Zero-G</span>
+        </button>
+
+        <button id="xray-btn" type="button"
+                class="brutalist-pill-btn px-3 py-2.5 rounded-xl font-mono-tech text-xs font-bold uppercase flex items-center gap-1.5 cursor-pointer">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <span class="hidden sm:inline">Wireframe</span>
+        </button>
+
+        <button id="jolt-btn" type="button"
+                class="brutalist-pill-btn px-3 py-2.5 rounded-xl font-mono-tech text-xs font-bold uppercase flex items-center gap-1.5 cursor-pointer"
+                title="Blast blocks upward">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+          <span class="hidden sm:inline">Jolt</span>
+        </button>
+
+        <button id="reset-btn" type="button"
+                class="brutalist-pill-btn p-2.5 rounded-xl font-mono-tech text-xs font-bold uppercase flex items-center justify-center cursor-pointer"
+                title="Reset blocks" aria-label="Reset blocks">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Interactive 2D Rigid-Body Physics Canvas -->
+    <canvas id="physics-canvas" class="absolute inset-0 block w-full h-full touch-none cursor-grab active:cursor-grabbing z-0"></canvas>
+  </main>
+
+  <!-- =====================================================================
+       3. BOTTOM KINETIC TICKER TAPE FOOTER
+       ===================================================================== -->
+  <footer class="w-full border-t-2 border-[var(--ink)] bg-[var(--ink)] text-[var(--bg)] py-2.5 overflow-hidden z-20 shrink-0">
+    <div class="animate-marquee font-mono-tech text-xs font-bold uppercase tracking-widest flex items-center">
+      <div class="flex items-center shrink-0">
+        <span class="mx-6">404 — PAGE NOT FOUND</span>
+        <span style="color: var(--accent);">✦</span>
+        <span class="mx-6">GRAB &amp; THROW THE TYPOGRAPHY</span>
+        <span style="color: var(--accent);">✦</span>
+        <span class="mx-6">INTERACTIVE GRAVITY ARCHIVE</span>
+        <span style="color: var(--accent);">✦</span>
+        <span class="mx-6">SWISS RIGID-BODY SOLVER // 60 FPS</span>
+        <span style="color: var(--accent);">✦</span>
+        <span class="mx-6">CURATED STUDIO EDITION</span>
+        <span style="color: var(--accent);">✦</span>
+      </div>
+      <div class="flex items-center shrink-0">
+        <span class="mx-6">404 — PAGE NOT FOUND</span>
+        <span style="color: var(--accent);">✦</span>
+        <span class="mx-6">GRAB &amp; THROW THE TYPOGRAPHY</span>
+        <span style="color: var(--accent);">✦</span>
+        <span class="mx-6">INTERACTIVE GRAVITY ARCHIVE</span>
+        <span style="color: var(--accent);">✦</span>
+        <span class="mx-6">SWISS RIGID-BODY SOLVER // 60 FPS</span>
+        <span style="color: var(--accent);">✦</span>
+        <span class="mx-6">CURATED STUDIO EDITION</span>
+        <span style="color: var(--accent);">✦</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       4. SELF-CONTAINED 2D RIGID-BODY PHYSICS ENGINE & AUDIO SYNTH
+       ===================================================================== -->
+  <script>
+    (function () {
+      const THEMES = {
+        paper: {
+          id: 'paper',
+          bg: '#F4F1EA',
+          surface: '#EBE6DC',
+          ink: '#121212',
+          muted: '#6E6A63',
+          accent: '#FF3B14',
+          accentInk: '#FFFFFF',
+          border: 'rgba(18, 18, 18, 0.14)',
+          grid: 'rgba(18, 18, 18, 0.055)',
+        },
+        blueprint: {
+          id: 'blueprint',
+          bg: '#0038A8',
+          surface: '#002B82',
+          ink: '#F2F6FF',
+          muted: '#8AB0FF',
+          accent: '#FFD026',
+          accentInk: '#091533',
+          border: 'rgba(242, 246, 255, 0.22)',
+          grid: 'rgba(242, 246, 255, 0.08)',
+        },
+        obsidian: {
+          id: 'obsidian',
+          bg: '#0D0D0D',
+          surface: '#171717',
+          ink: '#F5F3EF',
+          muted: '#78756F',
+          accent: '#D4FF33',
+          accentInk: '#0D0D0D',
+          border: 'rgba(245, 243, 239, 0.14)',
+          grid: 'rgba(245, 243, 239, 0.055)',
+        },
+      };
+
+      const EXTRA_PILLS = [
+        { text: 'NULL REFERENCE', variant: 'outline' },
+        { text: 'ERR_ROUTE_VANISHED', variant: 'surface' },
+        { text: 'LOST IN TRANSIT', variant: 'accent' },
+        { text: '404_NOT_FOUND', variant: 'ink' },
+        { text: 'TRY DRAGGING US', variant: 'outline' },
+        { text: 'DEAD LINK', variant: 'accent' },
+        { text: 'UNINDEXED', variant: 'surface' },
+        { text: 'CHECK THE URL', variant: 'ink' },
+        { text: 'HTTP // 404', variant: 'accent' },
+      ];
+
+      // DOM Elements
+      const stage = document.getElementById('stage');
+      const canvas = document.getElementById('physics-canvas');
+      const ctx = canvas.getContext('2d');
+      const customCursor = document.getElementById('custom-cursor');
+      const cursorBadge = document.getElementById('cursor-badge');
+      const cursorText = document.getElementById('cursor-text');
+      const grabStatus = document.getElementById('grab-status');
+
+      const themeBtns = document.querySelectorAll('.theme-btn');
+      const soundBtn = document.getElementById('sound-btn');
+      const soundOffIcon = document.getElementById('sound-off-icon');
+      const soundOnIcon = document.getElementById('sound-on-icon');
+      const returnHomeBtn = document.getElementById('return-home-btn');
+      const returnHomeLabel = document.getElementById('return-home-label');
+      const spawnBtn = document.getElementById('spawn-btn');
+      const zerogBtn = document.getElementById('zerog-btn');
+      const xrayBtn = document.getElementById('xray-btn');
+      const joltBtn = document.getElementById('jolt-btn');
+      const resetBtn = document.getElementById('reset-btn');
+
+      // Simulation State
+      const sim = {
+        width: 1200,
+        height: 750,
+        dpr: 1,
+        bodies: [],
+        pointer: {
+          x: 0,
+          y: 0,
+          vx: 0,
+          vy: 0,
+          isDown: false,
+          grabbedId: null,
+          grabOffsetX: 0,
+          grabOffsetY: 0,
+          hoveredId: null,
+        },
+        zeroGravity: false,
+        xrayWireframe: false,
+        soundEnabled: false,
+        returnedHome: false,
+        theme: THEMES.paper,
+        lastSoundTime: 0,
+      };
+
+      // Subtle Web Audio procedural synth for tactile collision thuds
+      let audioCtx = null;
+      function playTactileSound(freq = 140, type = 'triangle', duration = 0.06, volume = 0.08) {
+        if (!sim.soundEnabled) return;
+        try {
+          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContextClass) return;
+          if (!audioCtx) audioCtx = new AudioContextClass();
+          if (audioCtx.state === 'suspended') audioCtx.resume();
+
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(freq * 0.45, audioCtx.currentTime + duration);
+
+          gain.gain.setValueAtTime(volume, audioCtx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start();
+          osc.stop(audioCtx.currentTime + duration);
+        } catch (err) {
+          // Ignore audio restrictions
+        }
+      }
+
+      // Apply CSS Variables for Theme
+      function applyTheme(themeKey) {
+        const t = THEMES[themeKey] || THEMES.paper;
+        sim.theme = t;
+        const root = document.documentElement;
+        root.style.setProperty('--bg', t.bg);
+        root.style.setProperty('--surface', t.surface);
+        root.style.setProperty('--ink', t.ink);
+        root.style.setProperty('--muted', t.muted);
+        root.style.setProperty('--accent', t.accent);
+        root.style.setProperty('--accent-ink', t.accentInk);
+        root.style.setProperty('--border', t.border);
+        root.style.setProperty('--grid', t.grid);
+
+        themeBtns.forEach((btn) => {
+          if (btn.dataset.theme === themeKey) {
+            btn.style.backgroundColor = t.ink;
+            btn.style.color = t.bg;
+          } else {
+            btn.style.backgroundColor = 'transparent';
+            btn.style.color = t.ink;
+          }
+        });
+      }
+
+      // Initialize the monumental 4-0-4 blocks and inspection pills
+      function initBodies(width, height) {
+        const isMobile = width < 680;
+        const isTablet = width >= 680 && width < 1024;
+
+        // Larger, bolder 4-0-4 hero blocks since the stage is now clean and uncluttered
+        const heroSize = isMobile
+          ? Math.min(width * 0.3, 130)
+          : isTablet
+          ? Math.min(width * 0.25, 195)
+          : Math.min(width * 0.22, 260);
+
+        const bodies = [];
+        let idCounter = 1;
+
+        const glyphs = [
+          { char: '4', x: width * 0.27, y: -heroSize * 0.6, angle: -0.12, variant: 'ink' },
+          { char: '0', x: width * 0.50, y: -heroSize * 1.25, angle: 0.08, variant: 'accent' },
+          { char: '4', x: width * 0.73, y: -heroSize * 0.85, angle: 0.15, variant: 'ink' },
+        ];
+
+        glyphs.forEach((g) => {
+          bodies.push({
+            id: 'hero-' + (idCounter++),
+            kind: 'glyph',
+            text: g.char,
+            variant: g.variant,
+            x: g.x,
+            y: g.y,
+            vx: (Math.random() - 0.5) * 2.5,
+            vy: 2 + Math.random() * 2,
+            angle: g.angle,
+            av: (Math.random() - 0.5) * 0.025,
+            w: heroSize * 0.92,
+            h: heroSize * 1.06,
+            radius: heroSize * 0.52,
+            mass: 4.5,
+            restitution: 0.42,
+          });
+        });
+
+        // Clean curated pills
+        const initialPills = [
+          { text: 'PAGE NOT FOUND', variant: 'accent' },
+          { text: 'DRAG & THROW', variant: 'outline' },
+          { text: 'HTTP STATUS // 404', variant: 'ink' },
+          { text: 'MISSING ARTIFACT', variant: 'surface' },
+          { text: 'BROKEN ROUTE', variant: 'outline' },
+          { text: 'SECTOR NULL', variant: 'ink' },
+        ];
+
+        const pillCount = isMobile ? 4 : initialPills.length;
+        for (let i = 0; i < pillCount; i++) {
+          const item = initialPills[i];
+          const fontSize = isMobile ? 13 : 15;
+          const pillW = Math.max(125, item.text.length * (fontSize * 0.68) + 46);
+          const pillH = isMobile ? 42 : 52;
+          bodies.push({
+            id: 'pill-' + (idCounter++),
+            kind: 'pill',
+            text: item.text,
+            variant: item.variant,
+            x: width * (0.2 + (i / pillCount) * 0.6) + (Math.random() - 0.5) * 35,
+            y: -150 - i * 80,
+            vx: (Math.random() - 0.5) * 3,
+            vy: 1.5,
+            angle: (Math.random() - 0.5) * 0.4,
+            av: (Math.random() - 0.5) * 0.035,
+            w: pillW,
+            h: pillH,
+            radius: Math.max(pillW, pillH) * 0.36,
+            mass: 1.35,
+            restitution: 0.56,
+          });
+        }
+
+        sim.bodies = bodies;
+      }
+
+      // Drop extra debris
+      function spawnExtraArtifact() {
+        const width = sim.width;
+        const isMobile = width < 680;
+        const newItems = [];
+
+        for (let i = 0; i < 2; i++) {
+          const template = EXTRA_PILLS[Math.floor(Math.random() * EXTRA_PILLS.length)];
+          const fontSize = isMobile ? 13 : 15;
+          const pillW = Math.max(124, template.text.length * (fontSize * 0.68) + 42);
+          const pillH = isMobile ? 42 : 50;
+
+          newItems.push({
+            id: 'extra-' + Date.now() + '-' + Math.random(),
+            kind: 'pill',
+            text: template.text,
+            variant: template.variant,
+            x: width * (0.25 + Math.random() * 0.5),
+            y: -60 - i * 70,
+            vx: (Math.random() - 0.5) * 7,
+            vy: 3 + Math.random() * 3,
+            angle: (Math.random() - 0.5) * 0.6,
+            av: (Math.random() - 0.5) * 0.08,
+            w: pillW,
+            h: pillH,
+            radius: Math.max(pillW, pillH) * 0.36,
+            mass: 1.3,
+            restitution: 0.58,
+          });
+        }
+
+        const stampSize = isMobile ? 70 : 92;
+        const stamps = ['404', '?', '!', 'Ø', '×'];
+        newItems.push({
+          id: 'stamp-' + Date.now() + '-' + Math.random(),
+          kind: 'stamp',
+          text: stamps[Math.floor(Math.random() * stamps.length)],
+          variant: Math.random() > 0.5 ? 'accent' : 'ink',
+          x: width * (0.35 + Math.random() * 0.3),
+          y: -110,
+          vx: (Math.random() - 0.5) * 6,
+          vy: 4,
+          angle: (Math.random() - 0.5) * 0.5,
+          av: (Math.random() - 0.5) * 0.08,
+          w: stampSize,
+          h: stampSize,
+          radius: stampSize * 0.5,
+          mass: 2.1,
+          restitution: 0.64,
+        });
+
+        sim.bodies = sim.bodies.concat(newItems).slice(-26);
+        playTactileSound(240, 'sine', 0.07, 0.09);
+      }
+
+      // Blast blocks upward
+      function triggerShockwave() {
+        sim.bodies.forEach((b) => {
+          b.vy = -(13 + Math.random() * 10);
+          b.vx += (Math.random() - 0.5) * 16;
+          b.av += (Math.random() - 0.5) * 0.18;
+        });
+        playTactileSound(95, 'sawtooth', 0.14, 0.11);
+      }
+
+      // Hit test rotated body
+      function hitTestBody(body, px, py) {
+        const dx = px - body.x;
+        const dy = py - body.y;
+        const cos = Math.cos(-body.angle);
+        const sin = Math.sin(-body.angle);
+        const localX = dx * cos - dy * sin;
+        const localY = dx * sin + dy * cos;
+
+        if (body.kind === 'stamp') {
+          return localX * localX + localY * localY <= body.radius * body.radius;
+        }
+        const halfW = body.w * 0.52;
+        const halfH = body.h * 0.52;
+        return localX >= -halfW && localX <= halfW && localY >= -halfH && localY <= halfH;
+      }
+
+      // Update Canvas Bounds
+      function updateBounds() {
+        const rect = stage.getBoundingClientRect();
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        sim.width = rect.width;
+        sim.height = rect.height;
+        sim.dpr = dpr;
+
+        canvas.width = Math.floor(rect.width * dpr);
+        canvas.height = Math.floor(rect.height * dpr);
+        canvas.style.width = rect.width + 'px';
+        canvas.style.height = rect.height + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        if (sim.bodies.length === 0) {
+          initBodies(rect.width, rect.height);
+        } else {
+          sim.bodies.forEach((b) => {
+            b.x = Math.max(b.radius, Math.min(rect.width - b.radius, b.x));
+            b.y = Math.min(rect.height - b.radius, b.y);
+          });
+        }
+      }
+
+      // Update Custom Cursor Pill
+      function updateCursorUI(clientX, clientY, hovering, grabbing) {
+        if (!customCursor) return;
+        customCursor.style.left = clientX + 'px';
+        customCursor.style.top = clientY + 'px';
+        const active = hovering || grabbing;
+        customCursor.style.opacity = active ? '1' : '0';
+        const scale = grabbing ? 1.15 : hovering ? 1.05 : 0.45;
+        customCursor.style.transform = `translate(-50%, -50%) scale(${scale})`;
+
+        cursorBadge.style.backgroundColor = grabbing ? sim.theme.accent : sim.theme.ink;
+        cursorBadge.style.color = grabbing ? sim.theme.accentInk : sim.theme.bg;
+        cursorText.textContent = grabbing ? 'THROW' : 'GRAB';
+      }
+
+      // Pointer Events
+      canvas.addEventListener('pointerdown', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        sim.pointer.x = x;
+        sim.pointer.y = y;
+        sim.pointer.isDown = true;
+
+        for (let i = sim.bodies.length - 1; i >= 0; i--) {
+          const b = sim.bodies[i];
+          if (hitTestBody(b, x, y)) {
+            sim.pointer.grabbedId = b.id;
+            sim.pointer.grabOffsetX = x - b.x;
+            sim.pointer.grabOffsetY = y - b.y;
+            sim.bodies.splice(i, 1);
+            sim.bodies.push(b);
+            if (grabStatus) grabStatus.textContent = `HOLDING "${b.text}"`;
+            updateCursorUI(e.clientX, e.clientY, true, true);
+            playTactileSound(280, 'sine', 0.04, 0.06);
+            break;
+          }
+        }
+      });
+
+      window.addEventListener('pointermove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        sim.pointer.vx = x - sim.pointer.x;
+        sim.pointer.vy = y - sim.pointer.y;
+        sim.pointer.x = x;
+        sim.pointer.y = y;
+
+        let hovered = null;
+        for (let i = sim.bodies.length - 1; i >= 0; i--) {
+          if (hitTestBody(sim.bodies[i], x, y)) {
+            hovered = sim.bodies[i].id;
+            break;
+          }
+        }
+        sim.pointer.hoveredId = hovered;
+        updateCursorUI(e.clientX, e.clientY, Boolean(hovered), Boolean(sim.pointer.grabbedId));
+      }, { passive: true });
+
+      window.addEventListener('pointerup', (e) => {
+        if (sim.pointer.grabbedId) {
+          const grabbed = sim.bodies.find((b) => b.id === sim.pointer.grabbedId);
+          if (grabbed) {
+            grabbed.vx = Math.max(-28, Math.min(28, sim.pointer.vx * 0.95));
+            grabbed.vy = Math.max(-28, Math.min(28, sim.pointer.vy * 0.95));
+            grabbed.av = sim.pointer.vx * 0.004;
+          }
+        }
+        sim.pointer.isDown = false;
+        sim.pointer.grabbedId = null;
+        if (grabStatus) grabStatus.textContent = sim.returnedHome ? 'ROUTE RESTORED' : 'DRAG & THROW';
+        updateCursorUI(e.clientX, e.clientY, Boolean(sim.pointer.hoveredId), false);
+      }, { passive: true });
+
+      // UI Controls Listeners
+      themeBtns.forEach((btn) => {
+        btn.addEventListener('click', () => applyTheme(btn.dataset.theme));
+      });
+
+      soundBtn.addEventListener('click', () => {
+        sim.soundEnabled = !sim.soundEnabled;
+        soundOffIcon.classList.toggle('hidden', sim.soundEnabled);
+        soundOnIcon.classList.toggle('hidden', !sim.soundEnabled);
+        soundBtn.style.backgroundColor = sim.soundEnabled ? sim.theme.accent : 'var(--bg)';
+        soundBtn.style.color = sim.soundEnabled ? sim.theme.accentInk : 'var(--ink)';
+        if (sim.soundEnabled) playTactileSound(320, 'sine', 0.06, 0.08);
+      });
+
+      returnHomeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        try {
+          window.history.pushState({}, '', '/');
+        } catch (err) {}
+        triggerShockwave();
+        sim.returnedHome = !sim.returnedHome;
+        returnHomeLabel.textContent = sim.returnedHome ? 'Back Home — Jolt Again' : 'Return to Homepage';
+        if (grabStatus) grabStatus.textContent = sim.returnedHome ? 'ROUTE RESTORED' : 'DRAG & THROW';
+      });
+
+      spawnBtn.addEventListener('click', spawnExtraArtifact);
+
+      zerogBtn.addEventListener('click', () => {
+        sim.zeroGravity = !sim.zeroGravity;
+        zerogBtn.classList.toggle('active-mode', sim.zeroGravity);
+        if (sim.zeroGravity) {
+          sim.bodies.forEach((b) => {
+            b.vy -= 3 + Math.random() * 5;
+            b.vx += (Math.random() - 0.5) * 6;
+            b.av += (Math.random() - 0.5) * 0.06;
+          });
+        }
+      });
+
+      xrayBtn.addEventListener('click', () => {
+        sim.xrayWireframe = !sim.xrayWireframe;
+        xrayBtn.classList.toggle('active-mode', sim.xrayWireframe);
+      });
+
+      joltBtn.addEventListener('click', triggerShockwave);
+
+      resetBtn.addEventListener('click', () => {
+        initBodies(sim.width, sim.height);
+        playTactileSound(190, 'triangle', 0.08, 0.08);
+      });
+
+      // Rounded Rectangle Helper
+      function drawRoundedRect(x, y, w, h, r) {
+        const radius = Math.min(r, w / 2, h / 2);
+        ctx.beginPath();
+        ctx.moveTo(x + radius, y);
+        ctx.arcTo(x + w, y, x + w, y + h, radius);
+        ctx.arcTo(x + w, y + h, x, y + h, radius);
+        ctx.arcTo(x, y + h, x, y, radius);
+        ctx.arcTo(x, y, x + w, y, radius);
+        ctx.closePath();
+      }
+
+      // Main 60FPS Physics & Render Loop
+      function tick() {
+        requestAnimationFrame(tick);
+
+        const { width, height, bodies, pointer, zeroGravity: isZeroG, xrayWireframe: isXray, theme: curTheme } = sim;
+
+        // 1. Clear & Draw Swiss Architectural Grid
+        ctx.clearRect(0, 0, width, height);
+
+        const gridSize = width < 680 ? 48 : 72;
+        ctx.strokeStyle = curTheme.grid;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        for (let gx = gridSize; gx < width; gx += gridSize) {
+          ctx.moveTo(gx, 0);
+          ctx.lineTo(gx, height);
+        }
+        for (let gy = gridSize; gy < height; gy += gridSize) {
+          ctx.moveTo(0, gy);
+          ctx.lineTo(width, gy);
+        }
+        ctx.stroke();
+
+        // Subtle registration crosshairs
+        ctx.fillStyle = curTheme.muted;
+        for (let gx = gridSize; gx < width; gx += gridSize * 2) {
+          for (let gy = gridSize; gy < height; gy += gridSize * 2) {
+            ctx.fillRect(gx - 3, gy - 0.5, 6, 1);
+            ctx.fillRect(gx - 0.5, gy - 3, 1, 6);
+          }
+        }
+
+        // Giant Subtle Architectural Watermark in Center
+        ctx.save();
+        ctx.font = `900 ${Math.min(width * 0.16, 180)}px "Inter", sans-serif`;
+        ctx.fillStyle = curTheme.grid;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('404', width * 0.5, height * 0.44);
+        ctx.restore();
+
+        // 2. Step Physics Simulation
+        const gravity = isZeroG ? 0 : 0.46;
+        const airDamping = isZeroG ? 0.994 : 0.988;
+        const angularDamping = 0.95;
+
+        for (let i = 0; i < bodies.length; i++) {
+          const b = bodies[i];
+
+          if (pointer.grabbedId === b.id) {
+            const targetX = pointer.x - pointer.grabOffsetX;
+            const targetY = pointer.y - pointer.grabOffsetY;
+            b.vx = (targetX - b.x) * 0.38;
+            b.vy = (targetY - b.y) * 0.38;
+            b.x += b.vx;
+            b.y += b.vy;
+            b.av += (pointer.vx * 0.0012 - b.av) * 0.25;
+            b.angle += b.av;
+            continue;
+          }
+
+          b.vy += gravity;
+          b.vx *= airDamping;
+          b.vy *= airDamping;
+          b.av *= angularDamping;
+
+          b.x += b.vx;
+          b.y += b.vy;
+          b.angle += b.av;
+
+          // Gentle cursor wake when swiping fast without grabbing
+          if (!pointer.isDown && (Math.abs(pointer.vx) > 2 || Math.abs(pointer.vy) > 2)) {
+            const dx = b.x - pointer.x;
+            const dy = b.y - pointer.y;
+            const d = Math.hypot(dx, dy);
+            const minD = b.radius + 26;
+            if (d < minD && d > 0.01) {
+              const push = (1 - d / minD) * 0.35;
+              b.vx += pointer.vx * push;
+              b.vy += pointer.vy * push;
+              b.av += pointer.vx * 0.002;
+            }
+          }
+
+          const halfExtentX = b.kind === 'pill'
+            ? Math.abs(Math.cos(b.angle)) * (b.w * 0.48) + Math.abs(Math.sin(b.angle)) * (b.h * 0.48)
+            : b.radius * 0.92;
+          const halfExtentY = b.kind === 'pill'
+            ? Math.abs(Math.sin(b.angle)) * (b.w * 0.48) + Math.abs(Math.cos(b.angle)) * (b.h * 0.48)
+            : b.radius * 0.92;
+
+          // Floor
+          if (b.y + halfExtentY > height) {
+            b.y = height - halfExtentY;
+            if (Math.abs(b.vy) > 4.5 && performance.now() - sim.lastSoundTime > 75) {
+              sim.lastSoundTime = performance.now();
+              playTactileSound(110 + Math.random() * 50, 'triangle', 0.05, 0.05);
+            }
+            b.vy = -b.vy * b.restitution;
+            b.vx *= 0.86;
+            b.av += b.vx * 0.002;
+
+            if (!isZeroG && Math.abs(b.vy) < 1.1) {
+              b.vy = 0;
+              const nearestRightAngle = Math.round(b.angle / (Math.PI * 0.5)) * (Math.PI * 0.5);
+              b.angle += (nearestRightAngle - b.angle) * 0.08;
+            }
+          }
+
+          // Ceiling
+          if (isZeroG && b.y - halfExtentY < 0) {
+            b.y = halfExtentY;
+            b.vy = Math.abs(b.vy) * b.restitution;
+          } else if (b.y < -height * 1.6) {
+            b.y = -height * 0.5;
+            b.vy = 1;
+          }
+
+          // Walls
+          if (b.x - halfExtentX < 0) {
+            b.x = halfExtentX;
+            b.vx = Math.abs(b.vx) * b.restitution;
+            b.av -= b.vy * 0.002;
+          } else if (b.x + halfExtentX > width) {
+            b.x = width - halfExtentX;
+            b.vx = -Math.abs(b.vx) * b.restitution;
+            b.av += b.vy * 0.002;
+          }
+        }
+
+        // 3. Multi-pass Body-to-Body Collision Resolution
+        for (let iter = 0; iter < 3; iter++) {
+          for (let i = 0; i < bodies.length; i++) {
+            for (let j = i + 1; j < bodies.length; j++) {
+              const A = bodies[i];
+              const B = bodies[j];
+
+              const dx = B.x - A.x;
+              const dy = B.y - A.y;
+              const distSq = dx * dx + dy * dy;
+
+              const angleAB = Math.atan2(dy, dx);
+              const effRadius = (body, theta) => {
+                if (body.kind === 'stamp') return body.radius;
+                const rel = theta - body.angle;
+                const rx = body.w * 0.47;
+                const ry = body.h * 0.47;
+                return Math.hypot(rx * Math.cos(rel), ry * Math.sin(rel));
+              };
+
+              const rA = effRadius(A, angleAB);
+              const rB = effRadius(B, angleAB + Math.PI);
+              const minDist = rA + rB;
+
+              if (distSq < minDist * minDist && distSq > 0.0001) {
+                const dist = Math.sqrt(distSq);
+                const nx = dx / dist;
+                const ny = dy / dist;
+                const penetration = minDist - dist;
+
+                const invMassA = pointer.grabbedId === A.id ? 0 : 1 / A.mass;
+                const invMassB = pointer.grabbedId === B.id ? 0 : 1 / B.mass;
+                const totalInvMass = invMassA + invMassB;
+                if (totalInvMass === 0) continue;
+
+                const corr = (penetration * 0.65) / totalInvMass;
+                A.x -= nx * corr * invMassA;
+                A.y -= ny * corr * invMassA;
+                B.x += nx * corr * invMassB;
+                B.y += ny * corr * invMassB;
+
+                const rvx = B.vx - A.vx;
+                const rvy = B.vy - A.vy;
+                const velAlongNormal = rvx * nx + rvy * ny;
+
+                if (velAlongNormal < 0) {
+                  const e = Math.min(A.restitution, B.restitution);
+                  const jImpulse = (-(1 + e) * velAlongNormal) / totalInvMass;
+                  const impulseX = jImpulse * nx;
+                  const impulseY = jImpulse * ny;
+
+                  A.vx -= impulseX * invMassA;
+                  A.vy -= impulseY * invMassA;
+                  B.vx += impulseX * invMassB;
+                  B.vy += impulseY * invMassB;
+
+                  const tangentTorque = (rvx * -ny + rvy * nx) * 0.0018;
+                  A.av -= tangentTorque * invMassA;
+                  B.av += tangentTorque * invMassB;
+
+                  if (Math.abs(velAlongNormal) > 6 && performance.now() - sim.lastSoundTime > 90) {
+                    sim.lastSoundTime = performance.now();
+                    playTactileSound(160 + Math.random() * 90, 'sine', 0.04, 0.05);
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // 4. Render All Physical Artifacts
+        for (let i = 0; i < bodies.length; i++) {
+          const b = bodies[i];
+          const isGrabbed = pointer.grabbedId === b.id;
+          const isHovered = pointer.hoveredId === b.id;
+
+          ctx.save();
+          ctx.translate(b.x, b.y);
+          ctx.rotate(b.angle);
+
+          if (isGrabbed) ctx.scale(1.04, 1.04);
+
+          let fill = curTheme.ink;
+          let textFill = curTheme.bg;
+          let strokeColor = curTheme.ink;
+
+          if (b.variant === 'accent') {
+            fill = curTheme.accent;
+            textFill = curTheme.accentInk;
+            strokeColor = curTheme.ink;
+          } else if (b.variant === 'surface') {
+            fill = curTheme.surface;
+            textFill = curTheme.ink;
+            strokeColor = curTheme.ink;
+          } else if (b.variant === 'outline') {
+            fill = curTheme.bg;
+            textFill = curTheme.ink;
+            strokeColor = curTheme.ink;
+          }
+
+          // Brutalist Offset Hard Shadow
+          if (!isXray) {
+            const shadowOffset = isGrabbed ? 10 : isHovered ? 6 : 4;
+            ctx.fillStyle = b.variant === 'ink' ? curTheme.accent : curTheme.ink;
+            if (b.kind === 'stamp') {
+              ctx.beginPath();
+              ctx.arc(shadowOffset, shadowOffset, b.radius, 0, Math.PI * 2);
+              ctx.fill();
+            } else {
+              const r = b.kind === 'pill' ? b.h * 0.5 : 24;
+              drawRoundedRect(-b.w / 2 + shadowOffset, -b.h / 2 + shadowOffset, b.w, b.h, r);
+              ctx.fill();
+            }
+          }
+
+          // Main Shape
+          if (b.kind === 'stamp') {
+            ctx.beginPath();
+            ctx.arc(0, 0, b.radius, 0, Math.PI * 2);
+          } else {
+            const cornerRadius = b.kind === 'pill' ? b.h * 0.5 : 24;
+            drawRoundedRect(-b.w / 2, -b.h / 2, b.w, b.h, cornerRadius);
+          }
+
+          if (isXray) {
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+            ctx.fill();
+            ctx.lineWidth = 1.75;
+            ctx.strokeStyle = b.variant === 'accent' ? curTheme.accent : curTheme.ink;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(-b.w * 0.35, -b.h * 0.35);
+            ctx.lineTo(b.w * 0.35, b.h * 0.35);
+            ctx.moveTo(b.w * 0.35, -b.h * 0.35);
+            ctx.lineTo(-b.w * 0.35, b.h * 0.35);
+            ctx.strokeStyle = curTheme.border;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          } else {
+            ctx.fillStyle = fill;
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = strokeColor;
+            ctx.stroke();
+          }
+
+          // Typography inside Body
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = isXray ? curTheme.ink : textFill;
+
+          if (b.kind === 'glyph') {
+            const fontSize = Math.round(b.h * 0.72);
+            ctx.font = `900 ${fontSize}px "Inter", sans-serif`;
+            ctx.fillText(b.text, 0, fontSize * 0.04);
+
+            // Corner CAD Stamp
+            ctx.font = `700 10px "JetBrains Mono", monospace`;
+            ctx.fillStyle = isXray ? curTheme.accent : textFill;
+            ctx.globalAlpha = 0.65;
+            ctx.textAlign = 'left';
+            ctx.fillText(`FIG.${b.text}`, -b.w * 0.38, -b.h * 0.38);
+            ctx.textAlign = 'right';
+            ctx.fillText(`${Math.round(b.x)},${Math.round(b.y)}`, b.w * 0.38, b.h * 0.38);
+            ctx.globalAlpha = 1;
+          } else if (b.kind === 'pill') {
+            const fontSize = width < 680 ? 12 : 14;
+            ctx.font = `700 ${fontSize}px "JetBrains Mono", monospace`;
+            ctx.fillText(b.text, 0, 1);
+          } else if (b.kind === 'stamp') {
+            const fontSize = Math.round(b.radius * 0.9);
+            ctx.font = `900 ${fontSize}px "Inter", sans-serif`;
+            ctx.fillText(b.text, 0, 2);
+          }
+
+          ctx.restore();
+        }
+      }
+
+      window.addEventListener('resize', updateBounds);
+      window.onload = function () {
+        applyTheme('paper');
+        updateBounds();
+        requestAnimationFrame(tick);
+      };
+    })();
+  </script>
+</body>
+</html>
